@@ -42,7 +42,7 @@ class SemanticDataSet
                 $similarity = $vectorizedWord1->getVector()->cosineSimilarity($vectorizedWord2->getVector());
                 $result->pairs[] = new WordPair($word1, $word2, $similarity);
             } else {
-                array_splice($result->pairs, $i, 1);
+                array_splice($this->pairs, $i, 1);
                 $i--;
             }
         }
@@ -53,7 +53,7 @@ class SemanticDataSet
     {
         if ($a->getRelatedBy() < $b->getRelatedBy()) {
             return 1;
-        } elseif ($a->getRelatedBy() < $a->getRelatedBy()) {
+        } elseif ($a->getRelatedBy() > $b->getRelatedBy()) {
             return -1;
         } else {
             return 0;
@@ -86,7 +86,7 @@ class SemanticDataSet
     public function index(WordPair $wordPair): int
     {
         for ($i = 0; $i < count($this->pairs); $i++) {
-            if ($wordPair == $this->pairs[$i]) {
+            if ($wordPair->getWord1() == $this->pairs[$i]->getWord1() && $wordPair->getWord2() == $this->pairs[$i]->getWord2()) {
                 return $i;
             }
         }
